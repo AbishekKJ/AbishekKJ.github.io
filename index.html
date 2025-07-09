@@ -1,0 +1,1690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MSB Automations - Industrial Control Solutions</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary-dark: #0a0f1a;
+            --primary-blue: #1e40af;
+            --accent-cyan: #06b6d4;
+            --accent-orange: #f97316;
+            --text-light: #f8fafc;
+            --text-gray: #64748b;
+            --surface-dark: #111827;
+            --surface-light: #1f2937;
+            --border-gray: #374151;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            line-height: 1.6;
+            color: var(--text-light);
+            background: var(--primary-dark);
+            overflow-x: hidden;
+        }
+        
+        /* Header Styles */
+        .header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(10, 15, 26, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--border-gray);
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+        
+        .header.scrolled {
+            background: rgba(10, 15, 26, 0.98);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+        }
+        
+        .logo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 8px;
+            object-fit: contain;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--primary-blue));
+            padding: 8px;
+        }
+        
+        .logo-placeholder {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--primary-blue));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: white;
+        }
+        
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--primary-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+        
+        .nav-menu a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .nav-menu a:hover {
+            color: var(--accent-cyan);
+            background: rgba(6, 182, 212, 0.1);
+        }
+        
+        .nav-menu a.active {
+            color: var(--accent-cyan);
+        }
+        
+        .cta-button {
+            background: linear-gradient(135deg, var(--accent-orange), #ea580c);
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(249, 115, 22, 0.3);
+        }
+        
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 0.5rem;
+        }
+        
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            background: radial-gradient(ellipse at center, rgba(30, 64, 175, 0.1) 0%, transparent 70%);
+            overflow: hidden;
+        }
+        
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="%23374151" stroke-width="0.5" opacity="0.3"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+        
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--text-light) 0%, var(--accent-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .hero-text .highlight {
+            color: var(--accent-orange);
+            -webkit-text-fill-color: var(--accent-orange);
+        }
+        
+        .hero-text p {
+            font-size: 1.25rem;
+            color: var(--text-gray);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary-blue), var(--accent-cyan));
+            color: white;
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-light);
+            padding: 1rem 2rem;
+            border: 2px solid var(--border-gray);
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-primary:hover,
+        .btn-secondary:hover {
+            transform: translateY(-2px);
+        }
+        
+        .btn-secondary:hover {
+            border-color: var(--accent-cyan);
+            color: var(--accent-cyan);
+            box-shadow: 0 8px 25px rgba(6, 182, 212, 0.2);
+        }
+        
+        .hero-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .hero-graphic {
+            width: 100%;
+            max-width: 500px;
+            height: 400px;
+            background: linear-gradient(135deg, var(--surface-dark), var(--surface-light));
+            border-radius: 20px;
+            border: 1px solid var(--border-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .hero-graphic::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, var(--accent-cyan), transparent);
+            animation: rotate 20s linear infinite;
+            opacity: 0.1;
+        }
+        
+        .hero-graphic-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: var(--text-gray);
+            font-size: 4rem;
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Stats Section */
+        .stats {
+            background: var(--surface-dark);
+            border-top: 1px solid var(--border-gray);
+            border-bottom: 1px solid var(--border-gray);
+            padding: 4rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .stats-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 2rem 1rem;
+            background: var(--surface-light);
+            border-radius: 12px;
+            border: 1px solid var(--border-gray);
+            transition: transform 0.3s ease;
+        }
+        
+        .stat-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--primary-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+        
+        .stat-label {
+            color: var(--text-light);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        
+        .stat-detail {
+            color: var(--text-gray);
+            font-size: 0.8rem;
+            font-style: italic;
+            opacity: 0.9;
+            display: block;
+        }
+        
+        /* Services Section */
+        .services {
+            padding: 6rem 2rem;
+            position: relative;
+        }
+        
+        .section-header {
+            max-width: 800px;
+            margin: 0 auto 4rem;
+            text-align: center;
+        }
+        
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+        
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-gray);
+            line-height: 1.7;
+        }
+        
+        .services-grid {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+            gap: 2rem;
+        }
+        
+        .service-card {
+            background: var(--surface-light);
+            border: 1px solid var(--border-gray);
+            border-radius: 16px;
+            padding: 2.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--primary-blue));
+        }
+        
+        .service-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border-color: var(--accent-cyan);
+        }
+        
+        .service-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--primary-blue));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+        
+        .service-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+        
+        .service-card p {
+            color: var(--text-gray);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+        
+        .service-features {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+        
+        .service-features li {
+            padding: 0.5rem 0;
+            color: var(--text-gray);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        
+        .service-features li::before {
+            content: "✓";
+            color: var(--accent-cyan);
+            font-weight: bold;
+            background: rgba(6, 182, 212, 0.1);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+        
+        .service-link {
+            color: var(--accent-cyan);
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .service-link:hover {
+            gap: 1rem;
+        }
+        
+        /* Projects Section */
+        .projects {
+            padding: 6rem 2rem;
+            background: var(--surface-dark);
+        }
+        
+        .projects-grid {
+            max-width: 1400px;
+            margin: 2rem auto 0;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+        
+        .project-card {
+            background: var(--surface-light);
+            border: 1px solid var(--border-gray);
+            border-radius: 16px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .project-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .project-image {
+            width: 100%;
+            height: 280px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        
+        .project-card:hover .project-image {
+            transform: scale(1.05);
+        }
+        
+        .project-info {
+            padding: 2rem;
+        }
+        
+        .project-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--text-light);
+            margin-bottom: 0.75rem;
+        }
+        
+        .project-description {
+            color: var(--text-gray);
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+        }
+        
+        .project-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .project-tag {
+            background: rgba(6, 182, 212, 0.1);
+            color: var(--accent-cyan);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            border: 1px solid rgba(6, 182, 212, 0.2);
+        }
+        
+        .upload-instructions {
+            background: var(--surface-light);
+            border: 1px solid var(--border-gray);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 0 auto 3rem;
+            max-width: 800px;
+            text-align: center;
+        }
+        
+        .upload-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        
+        .upload-card {
+            background: rgba(6, 182, 212, 0.05);
+            border: 1px solid rgba(6, 182, 212, 0.2);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+        
+        .upload-card h5 {
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+        
+        .upload-card p {
+            color: var(--text-gray);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        /* Contact Section */
+        .contact {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--surface-dark) 100%);
+        }
+        
+        .contact-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: start;
+        }
+        
+        .contact-info h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--text-light);
+            margin-bottom: 1rem;
+        }
+        
+        .contact-info p {
+            color: var(--text-gray);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+        
+        .business-highlights {
+            margin: 2rem 0;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+        
+        .highlight-card {
+            background: rgba(6, 182, 212, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--accent-cyan);
+        }
+        
+        .highlight-card h5 {
+            color: var(--accent-cyan);
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        .highlight-card p {
+            color: var(--text-light);
+            font-weight: 600;
+            margin: 0;
+        }
+        
+        .contact-grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+        
+        .contact-item {
+            background: var(--surface-light);
+            border: 1px solid var(--border-gray);
+            border-radius: 12px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        
+        .contact-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--primary-blue));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: white;
+            flex-shrink: 0;
+        }
+        
+        .contact-details h4 {
+            color: var(--text-light);
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+        
+        .contact-details p {
+            color: var(--text-gray);
+            margin: 0;
+            font-size: 0.9rem;
+        }
+        
+        .contact-form {
+            background: var(--surface-light);
+            border: 1px solid var(--border-gray);
+            border-radius: 16px;
+            padding: 2.5rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            color: var(--text-light);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            background: var(--primary-dark);
+            border: 1px solid var(--border-gray);
+            border-radius: 8px;
+            padding: 0.75rem;
+            color: var(--text-light);
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 0 3px rgba(6, 182, 212, 0.1);
+        }
+        
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+        
+        /* Footer */
+        .footer {
+            background: var(--primary-dark);
+            border-top: 1px solid var(--border-gray);
+            padding: 3rem 2rem 1rem;
+        }
+        
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-section h4 {
+            color: var(--text-light);
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+        
+        .footer-section ul {
+            list-style: none;
+        }
+        
+        .footer-section a {
+            color: var(--text-gray);
+            text-decoration: none;
+            display: block;
+            padding: 0.25rem 0;
+            transition: color 0.3s ease;
+        }
+        
+        .footer-section a:hover {
+            color: var(--accent-cyan);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid var(--border-gray);
+            padding-top: 2rem;
+            text-align: center;
+            color: var(--text-gray);
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+                text-align: center;
+            }
+            
+            .contact-content {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+            
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.5rem;
+            }
+            
+            .stat-item {
+                padding: 1.5rem 1rem;
+            }
+            
+            .stat-number {
+                font-size: 2.5rem;
+            }
+            
+            .services-grid,
+            .projects-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .business-highlights {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .mobile-menu-toggle {
+                display: block;
+            }
+            
+            .nav-menu {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: rgba(10, 15, 26, 0.98);
+                backdrop-filter: blur(20px);
+                border-top: 1px solid var(--border-gray);
+                padding: 1rem 2rem;
+                flex-direction: column;
+                gap: 0;
+            }
+            
+            .nav-menu.mobile-open {
+                display: flex;
+            }
+            
+            .nav-menu li {
+                width: 100%;
+                border-bottom: 1px solid var(--border-gray);
+            }
+            
+            .nav-menu a {
+                display: block;
+                padding: 1rem 0;
+                border-radius: 0;
+            }
+            
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .services-grid,
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-container {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+            
+            .stat-item {
+                padding: 1.5rem;
+            }
+            
+            .stat-number {
+                font-size: 2.2rem;
+            }
+            
+            .upload-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .project-image {
+                height: 240px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .nav-container,
+            .hero-content,
+            .services,
+            .projects,
+            .contact {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+            
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+            }
+            
+            .btn-primary,
+            .btn-secondary {
+                width: 100%;
+                text-align: center;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .logo-image,
+            .logo-placeholder {
+                width: 35px;
+                height: 35px;
+            }
+            
+            .logo-text {
+                font-size: 1.2rem;
+            }
+        }
+        
+        /* Animations */
+        .fade-in {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+        
+        .fade-in.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        /* Scroll Behavior */
+        html {
+            scroll-behavior: smooth;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header class="header" id="header">
+        <nav class="nav-container">
+            <div class="logo-container">
+                <img src="./images/logo.png" alt="MSB Automations Logo" class="logo-image" 
+                     onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';" 
+                     onload="this.nextElementSibling.style.display='none';">
+                <div class="logo-placeholder" title="Add your logo to ./images/logo.png">
+                    ⚙️
+                </div>
+                <span class="logo-text">MSB Automations</span>
+            </div>
+            
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#home" class="nav-link">Home</a></li>
+                <li><a href="#services" class="nav-link">Services</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            
+            <button class="mobile-menu-toggle" id="mobileMenuToggle">
+                ☰
+            </button>
+            
+            <a href="#contact" class="cta-button">Get Quote</a>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>
+                    Advanced <span class="highlight">Industrial</span><br>
+                    Automation Solutions
+                </h1>
+                <p>
+                    Pioneering the future of industrial control with cutting-edge PLC systems, 
+                    intelligent microcontroller solutions, and state-of-the-art lift automation technology.
+                </p>
+                <div class="hero-buttons">
+                    <a href="#services" class="btn-primary">Explore Solutions</a>
+                    <a href="#contact" class="btn-secondary">Schedule Consultation</a>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-graphic">
+                    <div class="hero-graphic-content">
+                        🏭
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stat-item fade-in">
+                <span class="stat-number">750+</span>
+                <span class="stat-label">Industrial Systems Deployed</span>
+                <span class="stat-detail">Across 12 countries</span>
+            </div>
+            <div class="stat-item fade-in">
+                <span class="stat-number">99.2%</span>
+                <span class="stat-label">System Uptime Average</span>
+                <span class="stat-detail">Industry-leading reliability</span>
+            </div>
+            <div class="stat-item fade-in">
+                <span class="stat-number">18+</span>
+                <span class="stat-label">Years of Excellence</span>
+                <span class="stat-detail">Since 2007</span>
+            </div>
+            <div class="stat-item fade-in">
+                <span class="stat-number">$2.5M+</span>
+                <span class="stat-label">Cost Savings Generated</span>
+                <span class="stat-detail">For our clients annually</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="section-header">
+            <h2 class="section-title">Our Expertise</h2>
+            <p class="section-subtitle">
+                Comprehensive automation solutions tailored to modern industrial needs, 
+                from concept to implementation and beyond.
+            </p>
+        </div>
+        
+        <div class="services-grid">
+            <div class="service-card fade-in">
+                <div class="service-icon">🏭</div>
+                <h3>PLC Control Systems</h3>
+                <p>Advanced programmable logic controller solutions with seamless SCADA integration and real-time monitoring capabilities for complex industrial processes.</p>
+                <ul class="service-features">
+                    <li>SCADA Integration</li>
+                    <li>Real-time Data Monitoring</li>
+                    <li>Custom HMI Development</li>
+                    <li>Remote Access & Control</li>
+                    <li>Process Optimization</li>
+                </ul>
+                <a href="#contact" class="service-link">Learn More →</a>
+            </div>
+            
+            <div class="service-card fade-in">
+                <div class="service-icon">🔧</div>
+                <h3>Microcontroller Systems</h3>
+                <p>Precision-engineered microcontroller solutions for specialized applications requiring exact control, monitoring, and intelligent automation capabilities.</p>
+                <ul class="service-features">
+                    <li>Arduino & Raspberry Pi Integration</li>
+                    <li>IoT Connectivity Solutions</li>
+                    <li>Advanced Sensor Integration</li>
+                    <li>Mobile App Control</li>
+                    <li>Energy Management Systems</li>
+                </ul>
+                <a href="#contact" class="service-link">Learn More →</a>
+            </div>
+            
+            <div class="service-card fade-in">
+                <div class="service-icon">🏢</div>
+                <h3>Lift Automation</h3>
+                <p>Comprehensive elevator control systems with advanced safety compliance, energy optimization, and seamless building management integration.</p>
+                <ul class="service-features">
+                    <li>Multi-Floor Management</li>
+                    <li>Safety Systems Integration</li>
+                    <li>Emergency Protocol Controls</li>
+                    <li>Predictive Maintenance</li>
+                    <li>Smart Building Integration</li>
+                </ul>
+                <a href="#contact" class="service-link">Learn More →</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects" id="projects">
+        <div class="section-header">
+            <h2 class="section-title">Featured Projects</h2>
+            <p class="section-subtitle">
+                Showcasing our expertise through successful implementations across diverse industrial sectors.
+            </p>
+        </div>
+        
+        <div class="upload-instructions">
+            <h4>📁 Project Portfolio Management</h4>
+            <div class="upload-grid">
+                <div class="upload-card">
+                    <h5>🖼️ Project Images</h5>
+                    <p><strong>Step 1:</strong> Create "images" folder</p>
+                    <p><strong>Step 2:</strong> Add project photos</p>
+                    <p><strong>Step 3:</strong> Refresh to view</p>
+                    <p style="font-size: 0.8rem; color: var(--text-gray);"><em>Formats: JPG, PNG, WebP</em></p>
+                </div>
+                <div class="upload-card">
+                    <h5>🎨 Company Logo</h5>
+                    <p><strong>Step 1:</strong> Save as "logo.png"</p>
+                    <p><strong>Step 2:</strong> Place in "images" folder</p>
+                    <p><strong>Step 3:</strong> Refresh to display</p>
+                    <p style="font-size: 0.8rem; color: var(--text-gray);"><em>Recommended: 200x200px</em></p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="projects-grid" id="projectsGrid">
+            <!-- Projects will be dynamically loaded here -->
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="contact-content">
+            <div class="contact-info">
+                <h2>Partner with Industry Leaders</h2>
+                <p>
+                    Join Fortune 500 companies and leading manufacturers who trust MSB Automations 
+                    for mission-critical automation solutions. Our certified engineers and 24/7 support 
+                    ensure your operations never miss a beat.
+                </p>
+                
+                <div class="business-highlights">
+                    <div class="highlight-card">
+                        <h5>⚡ Response Time</h5>
+                        <p>4 Hours Average</p>
+                    </div>
+                    <div class="highlight-card">
+                        <h5>🏆 Certifications</h5>
+                        <p>ISO 9001, UL Listed</p>
+                    </div>
+                </div>
+                
+                <div class="contact-grid">
+                    <div class="contact-item">
+                        <div class="contact-icon">📞</div>
+                        <div class="contact-details">
+                            <h4>Business Hotline</h4>
+                            <p>+1 (555) 123-4567</p>
+                            <p style="font-size: 0.8rem; margin-top: 0.25rem; margin-bottom: 0;">Mon-Fri: 8AM-6PM EST</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">📧</div>
+                        <div class="contact-details">
+                            <h4>Business Inquiries</h4>
+                            <p>sales@msbautomations.com</p>
+                            <p style="font-size: 0.8rem; margin-top: 0.25rem; margin-bottom: 0;">Response within 4 hours</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">📍</div>
+                        <div class="contact-details">
+                            <h4>Corporate Headquarters</h4>
+                            <p>123 Industrial Technology Blvd</p>
+                            <p style="font-size: 0.8rem; margin-top: 0.25rem; margin-bottom: 0;">Innovation District, Tech City 12345</p>
+                        </div>
+                    </div>
+                    
+                    <div class="contact-item">
+                        <div class="contact-icon">🕒</div>
+                        <div class="contact-details">
+                            <h4>24/7 Technical Support</h4>
+                            <p>support@msbautomations.com</p>
+                            <p style="font-size: 0.8rem; margin-top: 0.25rem; margin-bottom: 0;">Emergency: +1 (555) 911-TECH</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="contact-form">
+                <form id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Full Name</label>
+                        <input type="text" id="name" name="name" placeholder="Your Full Name" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input type="email" id="email" name="email" placeholder="your.email@company.com" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="company">Company Name</label>
+                        <input type="text" id="company" name="company" placeholder="Your Company Name">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="phone">Phone Number</label>
+                        <input type="tel" id="phone" name="phone" placeholder="+1 (555) 123-4567">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="project-type">Project Type</label>
+                        <select id="project-type" name="project-type">
+                            <option value="">Select Project Type</option>
+                            <option value="plc-systems">PLC Control Systems</option>
+                            <option value="microcontroller">Microcontroller Solutions</option>
+                            <option value="lift-automation">Lift Automation</option>
+                            <option value="scada-integration">SCADA Integration</option>
+                            <option value="hmi-development">HMI Development</option>
+                            <option value="consultation">General Consultation</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="budget-range">Budget Range (USD)</label>
+                        <select id="budget-range" name="budget-range">
+                            <option value="">Select Budget Range</option>
+                            <option value="under-50k">Under $50,000</option>
+                            <option value="50k-100k">$50,000 - $100,000</option>
+                            <option value="100k-250k">$100,000 - $250,000</option>
+                            <option value="250k-500k">$250,000 - $500,000</option>
+                            <option value="500k-plus">$500,000+</option>
+                            <option value="consultation">Need Consultation</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="message">Project Requirements</label>
+                        <textarea id="message" name="message" placeholder="Describe your automation requirements, current challenges, timeline expectations, and specific goals..." required></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="timeline">Project Timeline</label>
+                        <select id="timeline" name="timeline">
+                            <option value="">Select Timeline</option>
+                            <option value="immediate">Immediate (Within 1 month)</option>
+                            <option value="short-term">Short-term (1-3 months)</option>
+                            <option value="medium-term">Medium-term (3-6 months)</option>
+                            <option value="long-term">Long-term (6+ months)</option>
+                            <option value="planning">Planning Phase</option>
+                        </select>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary" style="width: 100%;">
+                        Request Professional Consultation
+                    </button>
+                    
+                    <p style="font-size: 0.8rem; color: var(--text-gray); text-align: center; margin-top: 1rem;">
+                        🔒 Your information is secure and will only be used to contact you about your project inquiry.
+                        <br>Average response time: 4 hours during business days.
+                    </p>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Services</h4>
+                <ul>
+                    <li><a href="#services">PLC Control Systems</a></li>
+                    <li><a href="#services">Microcontroller Solutions</a></li>
+                    <li><a href="#services">Lift Automation</a></li>
+                    <li><a href="#services">SCADA Integration</a></li>
+                    <li><a href="#services">HMI Development</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Industries</h4>
+                <ul>
+                    <li><a href="#">Manufacturing</a></li>
+                    <li><a href="#">Building Automation</a></li>
+                    <li><a href="#">Food & Beverage</a></li>
+                    <li><a href="#">Water Treatment</a></li>
+                    <li><a href="#">Oil & Gas</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="#about">About Us</a></li>
+                    <li><a href="#">Our Team</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#projects">Case Studies</a></li>
+                    <li><a href="#">News & Updates</a></li>
+                </ul>
+            </div>
+            
+            <div class="footer-section">
+                <h4>Support</h4>
+                <ul>
+                    <li><a href="#">Documentation</a></li>
+                    <li><a href="#">Training Programs</a></li>
+                    <li><a href="#contact">Technical Support</a></li>
+                    <li><a href="#">Warranty Information</a></li>
+                    <li><a href="#contact">Contact Support</a></li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="footer-bottom">
+            <p>&copy; 2025 MSB Automations. All rights reserved. | Privacy Policy | Terms of Service</p>
+        </div>
+    </footer>
+
+    <script>
+        // Project Data with Industrial Focus
+        const projectsData = [
+            {
+                image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600&h=400&fit=crop&auto=format&q=80',
+                title: 'Advanced Manufacturing PLC System',
+                description: 'Comprehensive PLC control system for automotive manufacturing line with real-time quality monitoring and predictive maintenance capabilities.',
+                tags: ['PLC', 'Manufacturing', 'Quality Control', 'Predictive Maintenance']
+            },
+            {
+                image: 'https://images.unsplash.com/photo-1518709268805-4e9042af2176?w=600&h=400&fit=crop&auto=format&q=80',
+                title: 'Smart Building Lift Integration',
+                description: 'Intelligent elevator control system with IoT sensors, energy optimization, and seamless integration with building management systems.',
+                tags: ['Lift Control', 'IoT', 'Energy Optimization', 'Building Management']
+            },
+            {
+                image: 'https://images.unsplash.com/photo-1559134405-cb4d0c7f2e5d?w=600&h=400&fit=crop&auto=format&q=80',
+                title: 'Industrial IoT Monitoring Platform',
+                description: 'Microcontroller-based monitoring system with wireless sensor networks and cloud-based analytics for process optimization.',
+                tags: ['Microcontroller', 'IoT', 'Wireless', 'Analytics']
+            },
+            {
+                image: 'https://images.unsplash.com/photo-1565106430482-8f6e74349ca1?w=600&h=400&fit=crop&auto=format&q=80',
+                title: 'High-Voltage Control Panel',
+                description: 'Custom electrical control panel with advanced safety systems, arc flash protection, and remote monitoring capabilities.',
+                tags: ['Control Panel', 'Safety Systems', 'High Voltage', 'Remote Monitoring']
+            },
+            {
+                image: 'https://images.unsplash.com/photo-1536431311719-398b6704d4cc?w=600&h=400&fit=crop&auto=format&q=80',
+                title: 'SCADA System Implementation',
+                description: 'Enterprise-level SCADA system for water treatment facility with real-time monitoring, alarm management, and historical data analysis.',
+                tags: ['SCADA', 'Water Treatment', 'Real-time Monitoring', 'Data Analysis']
+            },
+            {
+                image: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&h=400&fit=crop&auto=format&q=80',
+                title: 'Touch Screen HMI Interface',
+                description: 'Intuitive human-machine interface with multi-touch capabilities, real-time visualization, and operator-friendly design.',
+                tags: ['HMI', 'Touch Interface', 'User Experience', 'Real-time Visualization']
+            }
+        ];
+
+        // Create Project Card Function
+        function createProjectCard(project) {
+            return `
+                <div class="project-card fade-in">
+                    <img src="${project.image}" alt="${project.title}" class="project-image" loading="lazy">
+                    <div class="project-info">
+                        <h3 class="project-title">${project.title}</h3>
+                        <p class="project-description">${project.description}</p>
+                        <div class="project-tags">
+                            ${project.tags.map(tag => `<span class="project-tag">${tag}</span>`).join('')}
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Generate Project Details from Filename
+        function generateProjectTitle(filename) {
+            return filename
+                .replace(/\.(jpg|jpeg|png|webp)$/i, '')
+                .replace(/[-_]/g, ' ')
+                .replace(/\b\w/g, l => l.toUpperCase());
+        }
+
+        function generateProjectDescription(filename) {
+            const descriptions = {
+                'plc': 'Advanced PLC control system with real-time monitoring and comprehensive automation capabilities for industrial applications.',
+                'lift': 'Smart elevator control system with safety compliance, energy optimization, and intelligent building integration features.',
+                'microcontroller': 'Precision microcontroller solution with IoT connectivity, sensor integration, and remote monitoring capabilities.',
+                'scada': 'Enterprise SCADA system with real-time data visualization, alarm management, and historical analysis features.',
+                'hmi': 'Intuitive human-machine interface with touch controls, real-time visualization, and operator-friendly design.',
+                'sensor': 'Advanced sensor integration system with wireless connectivity, data logging, and intelligent analytics.',
+                'automation': 'Complete industrial automation solution with process optimization and efficiency enhancement features.',
+                'control': 'Precision control system with advanced monitoring, safety protocols, and performance optimization.',
+                'panel': 'Custom control panel with integrated safety systems, user-friendly interface, and remote access capabilities.',
+                'motor': 'Advanced motor control system with variable frequency drives, protection mechanisms, and energy efficiency features.'
+            };
+
+            const lowerFilename = filename.toLowerCase();
+            for (const [key, desc] of Object.entries(descriptions)) {
+                if (lowerFilename.includes(key)) {
+                    return desc;
+                }
+            }
+            return 'Custom automation solution engineered and implemented by MSB Automations with focus on reliability and performance.';
+        }
+
+        function generateProjectTags(filename) {
+            const tagMap = {
+                'plc': ['PLC Systems', 'Industrial Control', 'Automation', 'Real-time Monitoring'],
+                'lift': ['Lift Control', 'Safety Systems', 'Building Automation', 'Energy Efficiency'],
+                'microcontroller': ['Microcontroller', 'IoT Integration', 'Embedded Systems', 'Sensor Networks'],
+                'scada': ['SCADA', 'Data Visualization', 'Industrial Monitoring', 'Process Control'],
+                'hmi': ['HMI', 'User Interface', 'Touch Control', 'Visualization'],
+                'sensor': ['Sensor Integration', 'Data Collection', 'IoT', 'Wireless Systems'],
+                'motor': ['Motor Control', 'VFD', 'Power Systems', 'Energy Management'],
+                'panel': ['Control Panels', 'Electrical Systems', 'Safety', 'Custom Design']
+            };
+
+            const lowerFilename = filename.toLowerCase();
+            for (const [key, tags] of Object.entries(tagMap)) {
+                if (lowerFilename.includes(key)) {
+                    return tags;
+                }
+            }
+            return ['Industrial Automation', 'Control Systems', 'Custom Solutions', 'MSB Engineering'];
+        }
+
+        // Load Projects from Folder
+        function loadProjectsFromFolder() {
+            const projectsGrid = document.getElementById('projectsGrid');
+            
+            // Manual image list (users can add their filenames here)
+            const manualImageList = [
+                // 'manufacturing-plc-system.jpg',
+                // 'smart-lift-control.png',
+                // 'iot-sensor-network.jpg',
+            ];
+
+            if (manualImageList.length > 0) {
+                const projects = manualImageList.map(filename => ({
+                    image: `./images/${filename}`,
+                    title: generateProjectTitle(filename),
+                    description: generateProjectDescription(filename),
+                    tags: generateProjectTags(filename)
+                }));
+                
+                projectsGrid.innerHTML = projects.map(project => createProjectCard(project)).join('');
+            } else {
+                // Show demo portfolio
+                projectsGrid.innerHTML = projectsData.map(project => createProjectCard(project)).join('');
+            }
+
+            // Initialize animations for new elements
+            initScrollAnimations();
+        }
+
+        // Navigation Functions
+        function initNavigation() {
+            const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+            const navMenu = document.getElementById('navMenu');
+            const navLinks = document.querySelectorAll('.nav-link');
+            const header = document.getElementById('header');
+
+            // Mobile menu toggle
+            if (mobileMenuToggle && navMenu) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    navMenu.classList.toggle('mobile-open');
+                    this.textContent = navMenu.classList.contains('mobile-open') ? '✕' : '☰';
+                });
+            }
+
+            // Close mobile menu when clicking on links
+            navLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    if (navMenu) {
+                        navMenu.classList.remove('mobile-open');
+                    }
+                    if (mobileMenuToggle) {
+                        mobileMenuToggle.textContent = '☰';
+                    }
+                    
+                    // Update active link
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', function(e) {
+                if (navMenu && mobileMenuToggle && 
+                    !navMenu.contains(e.target) && !mobileMenuToggle.contains(e.target)) {
+                    navMenu.classList.remove('mobile-open');
+                    mobileMenuToggle.textContent = '☰';
+                }
+            });
+
+            // Header scroll effect
+            window.addEventListener('scroll', function() {
+                if (header) {
+                    if (window.scrollY > 100) {
+                        header.classList.add('scrolled');
+                    } else {
+                        header.classList.remove('scrolled');
+                    }
+                }
+                updateActiveNavigation();
+            });
+        }
+
+        function updateActiveNavigation() {
+            const sections = document.querySelectorAll('section[id]');
+            const navLinks = document.querySelectorAll('.nav-link');
+            
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                if (window.scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        }
+
+        // Scroll Animations
+        function initScrollAnimations() {
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, observerOptions);
+
+            // Observe all fade-in elements
+            document.querySelectorAll('.fade-in').forEach(el => {
+                observer.observe(el);
+            });
+        }
+
+        // Contact Form Handling
+        function initContactForm() {
+            const contactForm = document.getElementById('contactForm');
+            
+            if (contactForm) {
+                contactForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const submitButton = this.querySelector('button[type="submit"]');
+                    const originalText = submitButton.textContent;
+                    
+                    submitButton.textContent = 'Sending...';
+                    submitButton.disabled = true;
+                    
+                    // Simulate form submission
+                    setTimeout(() => {
+                        alert('Thank you for your message! We will get back to you within 24 hours.');
+                        this.reset();
+                        submitButton.textContent = originalText;
+                        submitButton.disabled = false;
+                    }, 2000);
+                });
+            }
+        }
+
+        // Smooth Scrolling
+        function initSmoothScrolling() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        const headerHeight = document.querySelector('.header').offsetHeight;
+                        const targetPosition = target.offsetTop - headerHeight;
+                        
+                        window.scrollTo({
+                            top: targetPosition,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        }
+
+        // Animated Statistics Counter
+        function animateStats() {
+            const statNumbers = document.querySelectorAll('.stat-number');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        const target = entry.target;
+                        const finalValue = target.textContent;
+                        
+                        let numericValue;
+                        let prefix = '';
+                        let suffix = '';
+                        
+                        if (finalValue.includes('$')) {
+                            const match = finalValue.match(/\$(\d+\.?\d*)([M+]*)/);
+                            if (match) {
+                                numericValue = parseFloat(match[1]);
+                                prefix = '$';
+                                suffix = match[2];
+                            }
+                        } else if (finalValue.includes('%')) {
+                            numericValue = parseFloat(finalValue.replace('%', ''));
+                            suffix = '%';
+                        } else if (finalValue.includes('+')) {
+                            numericValue = parseInt(finalValue.replace(/\D/g, ''));
+                            suffix = '+';
+                        } else {
+                            numericValue = parseInt(finalValue.replace(/\D/g, ''));
+                            suffix = finalValue.replace(/[\d.]/g, '');
+                        }
+                        
+                        let currentValue = 0;
+                        const increment = numericValue / 50;
+                        
+                        const counter = setInterval(() => {
+                            currentValue += increment;
+                            if (currentValue >= numericValue) {
+                                target.textContent = finalValue;
+                                clearInterval(counter);
+                            } else {
+                                if (finalValue.includes('$')) {
+                                    target.textContent = prefix + currentValue.toFixed(1) + suffix;
+                                } else if (finalValue.includes('%')) {
+                                    target.textContent = currentValue.toFixed(1) + suffix;
+                                } else {
+                                    target.textContent = Math.floor(currentValue) + suffix;
+                                }
+                            }
+                        }, 40);
+                        
+                        observer.unobserve(target);
+                    }
+                });
+            }, { threshold: 0.5 });
+
+            statNumbers.forEach(stat => observer.observe(stat));
+        }
+
+        // Initialize Everything
+        document.addEventListener('DOMContentLoaded', function() {
+            loadProjectsFromFolder();
+            initNavigation();
+            initScrollAnimations();
+            initContactForm();
+            initSmoothScrolling();
+            animateStats();
+            
+            // Set home as active initially
+            const homeLink = document.querySelector('.nav-link[href="#home"]');
+            if (homeLink) {
+                homeLink.classList.add('active');
+            }
+        });
+
+        // Image Optimization
+        window.addEventListener('load', function() {
+            try {
+                const images = document.querySelectorAll('img');
+                images.forEach(img => {
+                    img.addEventListener('error', function() {
+                        console.log('Failed to load image:', this.src);
+                    });
+                });
+            } catch (error) {
+                console.log('Image optimization error:', error);
+            }
+        });
+    </script>
+</body>
+</html> initially
+            const homeLink = document.querySelector('.nav-link[href="#home"]');
+            if (homeLink) {
+                homeLink.classList.add('active');
+            }
+        });
+
+        // Image Optimization
+        window.addEventListener('load', function() {
+            const images = document.querySelectorAll('img');
+            images.forEach(img => {
+                img.addEventListener('error', function() {
+                    console.log('Failed to load image:', this.src);
+                });
+            });
+        });
+    </script>
+</body>
+</html>
